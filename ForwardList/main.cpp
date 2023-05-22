@@ -43,11 +43,16 @@ class Iterator
 public:
 	Iterator(Element* Temp) :Temp(Temp)
 	{
+#ifdef DEBUG
 		cout << "ItConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	~Iterator()
 	{
+#ifdef DEBUG
 		cout << "ItDestructor:\t" << this << endl;
+#endif // DEBUG
 	}
 	
 	Iterator& operator++()
@@ -55,6 +60,13 @@ public:
 		Temp = Temp->pNext;
 		return *this;
 	}
+	Iterator operator++(int)
+	{
+		Iterator old = *this;
+		Temp = Temp->pNext;
+		return old;
+	}
+
 
 	bool operator==(const Iterator& other)const
 	{
@@ -78,11 +90,11 @@ class Forwardlist
 	//Голова списка содержит адрес начального элемента.
 	unsigned int size;  //Количество элементов списка
 public:
-	Iterator begin()
+	Iterator begin()const
 	{
 		return Head;
 	}
-	Iterator end()
+	Iterator end()const
 	{
 		return nullptr;
 	}
@@ -113,6 +125,12 @@ public:
 		}
 	}
 
+	Forwardlist(Forwardlist&& other) :Forwardlist()
+	{
+		*this = std::move(other);//Встроенная фунуция std::move() принудительно 
+		cout << "MoveConstructor:" << this << endl;
+	}
+
 	~Forwardlist()
 	{
 		while (Head)pop_front();
@@ -136,6 +154,18 @@ public:
 		return *this;
 
 	}
+	Forwardlist& operator=(Forwardlist&& other)
+	{
+		if (this == &other)return *this;
+		while (Head)pop_front();
+		this->Head = other.Head;
+		this->size = other.size;
+		other.Head = nullptr;
+		other.size = 0;
+		cout << "MoveAssignment:\t" << this << endl;
+		return *this;
+	}
+
 
 	//            Adding elements:
 	void push_front(int Data)
@@ -253,13 +283,25 @@ public:
 		cout << "Количество элементов списка: " << size << endl;
 		cout << "Общее количество элементов: " << Head->count << endl;
 	}
-
+	
 };
+
+Forwardlist operator+(const Forwardlist& left, const Forwardlist& right)
+{
+	Forwardlist cat = left;
+	for (Iterator it = right.begin(); it != right.end(); ++it)
+	{
+		cat.push_back(*it);
+	}
+		return cat;
+}
+
 
 //#define BASE_CHEK
 //#define COPY_CHEK
 //#define PREFORMANCE_CHEK
 //#define RANGE_BASED_FOR_ARRAY
+//#define ITERATORS_CHEK
 
 
 
@@ -355,6 +397,7 @@ list2.print();*/
 	cout << endl;
 #endif // RANGE_BASED_FOR_ARRAY
 
+#ifdef ITERATORS_CHEK
 	Forwardlist list = { 3, 5, 8, 13, 21 };
 	//list.print();
 	for (int i : list)
@@ -362,4 +405,18 @@ list2.print();*/
 		cout << i << tab;
 	}
 	cout << endl;
+#endif // ITERATORS_CHEK
+
+
+	Forwardlist list1 = {3, 5, 8, 13, 21};
+	for (int i : list1)cout << i << tab; cout << endl;
+	
+	Forwardlist list2 = { 34, 55, 89 };
+	for (int i : list2)cout << i << tab; cout << endl;
+
+	//Forwardlist list3 = list1 + list2; //MoveConstructor
+	Forwardlist list3;
+	list3 = list1 + list2;      //MoveAssignment
+	for (int i : list3)cout << i << tab; cout << endl;
+
 }
