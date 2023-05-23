@@ -127,7 +127,7 @@ public:
 
 	Forwardlist(Forwardlist&& other) :Forwardlist()
 	{
-		*this = std::move(other);//Встроенная фунуция std::move() принудительно 
+		*this = std::move(other);//Встроенная фунуция std::move() принудительно вызывает MoveAssignment для своего параметра 
 		cout << "MoveConstructor:" << this << endl;
 	}
 
