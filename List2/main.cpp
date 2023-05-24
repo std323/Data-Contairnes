@@ -50,6 +50,28 @@ public:
 		Head = New;
 		size++;
 	}
+	void push_back(int Data)
+	{
+		if (Head == nullptr && Tail == nullptr)return push_front(Data);
+		Element* New = new Element(Data);
+		New->pPrev = Tail;
+		Tail->pNext = New;
+		Tail = New;
+		size++;
+	}
+
+	//      Removing elements:
+	void pop_front()
+	{
+		if (Head == nullptr && Tail == nullptr)return;
+		Element* Erased = Head; //1) Запоминаем адрес удаляемого элемента
+		Head = Head->pNext;     //2) Исключаем удаляемый элемент из списка
+		Head->pPrev = Erased;
+		delete Erased;          //3) Удаляем элемент из памяти
+		size--;
+	}
+
+	
 
 	//                Methods:
 
@@ -60,6 +82,15 @@ public:
 		cout << "Количество элементов списка: " << size << endl;
 	}
 
+	void reverse_print()const
+	{
+		for (Element* Temp = Tail; Temp; Temp = Temp->pPrev)
+			cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
+
+		cout << "Количество элементов списка: " << size << endl;
+	}
+
+	
 };
 
 void main()
@@ -71,6 +102,12 @@ void main()
 	for (int i = 0; i < n; i++)
 	{
 		list.push_front(rand() % 100);
+		//list.push_back(rand() % 100);
+		
+		
 	}
+	list.print();
+	//list.reverse_print();
+	//list.pop_front();
 	list.print();
 }
