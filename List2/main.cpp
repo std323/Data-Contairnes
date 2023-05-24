@@ -1,4 +1,4 @@
-#include<iostream>
+п»ї#include<iostream>
 using namespace std;
 
 #define tab "\t"
@@ -8,9 +8,9 @@ class List
 {
 	class Element
 	{
-		int Data; //значение элемента
-		Element* pNext;//указатель на следующий элемент
-		Element* pPrev;//указатель на предыдущий элемент
+		int Data; //Р·РЅР°С‡РµРЅРёРµ СЌР»РµРјРµРЅС‚Р°
+		Element* pNext;//СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃР»РµРґСѓСЋС‰РёР№ СЌР»РµРјРµРЅС‚
+		Element* pPrev;//СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РїСЂРµРґС‹РґСѓС‰РёР№ СЌР»РµРјРµРЅС‚
 	public:
 		Element(int Data, Element* pNext = nullptr, Element* pPrev = nullptr) : Data(Data), pNext(pNext), pPrev(pPrev)
 		{
@@ -21,7 +21,7 @@ class List
 			cout << "EDestructor:\t" << this << endl;
 		}
 		friend class List;
-	}*Head, *Tail;//Обьекты и указатели на обьекты можно обьявлять сразу же после описания класса
+	}*Head, *Tail;//РћР±СЊРµРєС‚С‹ Рё СѓРєР°Р·Р°С‚РµР»Рё РЅР° РѕР±СЊРµРєС‚С‹ РјРѕР¶РЅРѕ РѕР±СЊСЏРІР»СЏС‚СЊ СЃСЂР°Р·Сѓ Р¶Рµ РїРѕСЃР»Рµ РѕРїРёСЃР°РЅРёСЏ РєР»Р°СЃСЃР°
 	size_t size;
 public:
 	List()
@@ -64,10 +64,10 @@ public:
 	void pop_front()
 	{
 		if (Head == nullptr && Tail == nullptr)return;
-		Element* Erased = Head; //1) Запоминаем адрес удаляемого элемента
-		Head = Head->pNext;     //2) Исключаем удаляемый элемент из списка
+		Element* Erased = Head; //1) Р—Р°РїРѕРјРёРЅР°РµРј Р°РґСЂРµСЃ СѓРґР°Р»СЏРµРјРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
+		Head = Head->pNext;     //2) РСЃРєР»СЋС‡Р°РµРј СѓРґР°Р»СЏРµРјС‹Р№ СЌР»РµРјРµРЅС‚ РёР· СЃРїРёСЃРєР°
 		Head->pPrev = Erased;
-		delete Erased;          //3) Удаляем элемент из памяти
+		delete Erased;          //3) РЈРґР°Р»СЏРµРј СЌР»РµРјРµРЅС‚ РёР· РїР°РјСЏС‚Рё
 		size--;
 	}
 
@@ -79,7 +79,7 @@ public:
 	{
 		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
 			cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
-		cout << "Количество элементов списка: " << size << endl;
+		cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ СЃРїРёСЃРєР°: " << size << endl;
 	}
 
 	void reverse_print()const
@@ -87,7 +87,7 @@ public:
 		for (Element* Temp = Tail; Temp; Temp = Temp->pPrev)
 			cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 
-		cout << "Количество элементов списка: " << size << endl;
+		cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ СЃРїРёСЃРєР°: " << size << endl;
 	}
 
 	
@@ -97,7 +97,7 @@ void main()
 {
 	setlocale(LC_ALL, "");
 	int n;
-	cout << "Введите размер списка: "; cin >> n;
+	cout << "Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ СЃРїРёСЃРєР°: "; cin >> n;
 	List list;
 	for (int i = 0; i < n; i++)
 	{
