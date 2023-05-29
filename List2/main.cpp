@@ -56,7 +56,7 @@ class List
 		}
 	};
 public:
-	class ConstIterator:ConstBaseIterator
+	class ConstIterator:public ConstBaseIterator
 	{
 	public:
 		ConstIterator(Element* Temp) :ConstBaseIterator(Temp)
