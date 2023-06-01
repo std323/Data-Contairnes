@@ -31,8 +31,8 @@ template<typename T>class List
 	protected:
 		Element* Temp;
 	public:
-		ConstBaseIterator(Element* Temp);
-		~ConstBaseIterator();
+		ConstBaseIterator(Element* Temp) :Temp(Temp) {}
+		~ConstBaseIterator() {}
 		bool operator==(const ConstBaseIterator& other)const;
 		bool operator!=(const ConstBaseIterator& other)const;
 		const T& operator*()const;
@@ -61,15 +61,17 @@ public:
 	class Iterator :public ConstIterator
 	{
 	public:
-		Iterator(Element* Temp);
-		~Iterator();
+		Iterator(Element* Temp):ConstIterator(Temp) {}
+		~Iterator() {}
+
 		T& operator*();
 	};
 	class ReverseIterator : public ConstReverseIterator
 	{
 	public:
-		ReverseIterator(Element* Temp);
-		~ReverseIterator();
+		ReverseIterator(Element* Temp):ConstReverseIterator(Temp) {}
+		~ReverseIterator() {}
+
 		T& operator*();
 	};
 

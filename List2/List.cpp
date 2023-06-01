@@ -2,8 +2,6 @@
 
 /////////////////////////////////////////////////////////////////////
 ///////////////////    ConstBaseIterator    member functions    /////
-template<typename T>List<T>::ConstBaseIterator::ConstBaseIterator(Element* Temp) :Temp(Temp) {}
-template<typename T>List<T>::ConstBaseIterator::~ConstBaseIterator() {}
 
 template<typename T>bool List<T>::ConstBaseIterator::operator==(const ConstBaseIterator& other)const
 {
@@ -110,8 +108,6 @@ template<typename T>typename List<T>::ConstReverseIterator List<T>::ConstReverse
 
 /////////////////////////////////////////////////////////////////////
 ///////////////////    Iterator    member functions    /////////////
-template<typename T>List<T>::Iterator::Iterator(Element* Temp) :ConstIterator(Temp) {}
-template<typename T>List<T>::Iterator::~Iterator() {}
 
 template<typename T>T& List<T>::Iterator::operator*()
 {
@@ -124,8 +120,6 @@ template<typename T>T& List<T>::Iterator::operator*()
 
 /////////////////////////////////////////////////////////////////////
 ///////////////////    ReverseIterator    member functions    ///////
-template<typename T>List<T>::ReverseIterator::ReverseIterator(Element* Temp) :ConstReverseIterator(Temp) {}
-template<typename T>List<T>::ReverseIterator::~ReverseIterator() {}
 
 template<typename T>T& List<T>::ReverseIterator::operator*()
 {
