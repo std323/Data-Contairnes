@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 using namespace std;
 
 class Tree
@@ -131,9 +131,9 @@ void main()
 {
 	setlocale(LC_ALL, "");
 	int n;
-	cout << "Ââåäèòå ðàçìåð äåðåâà: "; cin >> n;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð´ÐµÑ€ÐµÐ²Ð°: "; cin >> n;
 	Tree tree;
-	cout << "Ìèíèìàëüíîå çíà÷åíèå â äåðåâå: " << tree.minValue(tree.getRoot()) << endl;
+	cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.minValue(tree.getRoot()) << endl;
 	for (int i = 0; i < n; i++)
 	{
 		tree.insert(rand() % 100, tree.getRoot());
@@ -141,9 +141,9 @@ void main()
 	tree.print(tree.getRoot());
 
 	cout << endl;
-	cout << "Ìèíèìàëüíîå çíà÷åíèå â äåðåâå: " << tree.minValue(tree.getRoot()) << endl;
-	cout << "Ìàêñèìàëüíîå çíà÷åíèå â äåðåâå: " << tree.maxValue(tree.getRoot()) << endl;
-	cout << "Êîëè÷åñòâî ýëåìåíòîâ â äåðåâå: " << tree.count(tree.getRoot()) << endl;
+	cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.minValue(tree.getRoot()) << endl;
+	cout << "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.maxValue(tree.getRoot()) << endl;
+	cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << tree.count(tree.getRoot()) << endl;
 
 	/*UniqueTree u_tree;
 	for (int i = 0; i < n; i++)
@@ -153,11 +153,11 @@ void main()
 	u_tree.print(u_tree.getRoot());
 	cout << endl;
 	cout << endl;
-	cout << "Ìèíèìàëüíîå çíà÷åíèå â äåðåâå: " << u_tree.minValue(u_tree.getRoot()) << endl;
-	cout << "Ìàêñèìàëüíîå çíà÷åíèå â äåðåâå:" << u_tree.maxValue(u_tree.getRoot()) << endl;
-	cout << "Êîëè÷åñòâî ýëåìåíòîâ â äåðåâå: " << u_tree.count(u_tree.getRoot()) << endl;*/
+	cout << "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << u_tree.minValue(u_tree.getRoot()) << endl;
+	cout << "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð² Ð´ÐµÑ€ÐµÐ²Ðµ:" << u_tree.maxValue(u_tree.getRoot()) << endl;
+	cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð² Ð´ÐµÑ€ÐµÐ²Ðµ: " << u_tree.count(u_tree.getRoot()) << endl;*/
 
-	cout << "Ñóììà ýëåìåíòîâ: " << tree.sum(tree.getRoot()) << endl;
-	cout << "Cðåäíåå-àðèôìåòè÷åñêîå ýëåìåíòîâ äåðåâà: " << tree.avg(tree.getRoot()) << endl;
-	cout << "Ãëóáèíà äåðåâà: " << tree.depth(tree.getRoot()) << endl;
+	cout << "Ð¡ÑƒÐ¼Ð¼Ð° ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð²: " << tree.sum(tree.getRoot()) << endl;
+	cout << "CÑ€ÐµÐ´Ð½ÐµÐµ-Ð°Ñ€Ð¸Ñ„Ð¼ÐµÑ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð´ÐµÑ€ÐµÐ²Ð°: " << tree.avg(tree.getRoot()) << endl;
+	cout << "Ð“Ð»ÑƒÐ±Ð¸Ð½Ð° Ð´ÐµÑ€ÐµÐ²Ð°: " << tree.depth(tree.getRoot()) << endl;
 }
