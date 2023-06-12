@@ -90,6 +90,7 @@ public:
 		true_print(Root, depth());
 		cout << endl;
 	}
+	
 	int sum()const
 	{
 		return sum(Root);
@@ -184,7 +185,7 @@ private:
 		if (depth == 0)cout << Root->Data << tab;
 		print(Root->pRight, depth - 1);
 	}
-	void true_print(Element* Root, int depth, int width=100)const
+	void true_print(Element* Root, int depth, int width = 100)const
 	{
 		if (depth == -1)return;
 		true_print(Root, depth - 1);
@@ -192,9 +193,8 @@ private:
 		cout << endl;
 		cout << endl;
 		cout << endl;
-		
-		
 	}
+	
 	int minValue(Element* Root)const
 	{
 		if (Root == nullptr)return 0;
@@ -243,7 +243,27 @@ private:
 		    depth(Root->pRight) + 1;*/
 		
 }
-
+	void balance(Element* Root)
+	{
+		if (Root == nullptr)return;
+		if (count(Root->pLeft) - count(Root->pRight) == 1)return;
+		if (count(Root->pLeft) < count(Root->pRight))
+		{
+			if (Root->pLeft == nullptr)Root->pLeft = new Element(Root->Data);
+			else insert(Root->Data, Root->pLeft);
+			Root->Data = minValue(Root->pRight);
+			erase(minValue(Root->pRight));
+		}
+		if (count(Root->pRight) < count(Root->pLeft))
+		{
+			if (Root->pRight == nullptr)Root->pRight = new Element(Root->Data);
+			else insert(Root->Data, Root->pRight);
+			Root->Data = maxValue(Root -> pLeft);
+			erase(maxValue(Root->pLeft));
+		}
+		balance(Root->pLeft);
+		balance(Root->pRight);
+	}
 	
 
 };
@@ -283,7 +303,7 @@ void measure(const char description[], const Tree& tree, T (Tree::*member_functi
 }
 
 //#define BASE_CHEK
-#define DEPTH_CHEK
+//#define DEPTH_CHEK
 //#define PREFORMANCE_CHEK
 
 void main()
@@ -403,6 +423,12 @@ void main()
 
 
 #endif // PREFORMANCE_CHEK
+	Tree tree = { 50, 25, 75, 16, 32, 64, 80, 91, 100 };
+	tree.balance();
+	tree.true_print();
+	
+	
+	
 
 
 }
