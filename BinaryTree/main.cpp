@@ -9,16 +9,19 @@ using std::endl;
 #define delimiter    "\n------------------------------------\n"
 
 //#define DEBUG
-class Tree
+template<typename T>class Tree;
+template<typename T>class UniqueTree;
+
+template<typename T>class Tree
 {
 protected:
 	class Element
 	{
-		int Data;
+		T Data;
 		Element* pLeft;
 		Element* pRight;
 	public:
-		Element(int Data, Element* pLeft = nullptr, Element* pRight = nullptr) :Data(Data), pLeft(pLeft), pRight(pRight)
+		Element(T Data, Element* pLeft = nullptr, Element* pRight = nullptr) :Data(Data), pLeft(pLeft), pRight(pRight)
 		{
 #ifdef DEBUG
 			cout << "EConstructor:\t" << this << endl;
@@ -35,8 +38,8 @@ protected:
 		{
 			return pLeft == pRight;
 		}
-		friend class Tree;
-		friend class UniqueTree;
+		friend class Tree<T>;
+		friend class UniqueTree<T>;
 
 	}*Root;
 public:
@@ -48,9 +51,9 @@ public:
 	{
 		cout << "TConstructor:\t" << this << endl;
 	}
-	Tree(const std::initializer_list<int>& il) :Tree()
+	Tree(const std::initializer_list<T>& il) :Tree()
 	{
-		for (int i : il)insert(i, Root);
+		for (T i : il)insert(i, Root);
 	}
 	~Tree()
 	{
@@ -59,21 +62,37 @@ public:
 		cout << "TDestructor:\t" << this << endl;
 
 	}
-	void insert(int Data)
+	void insert(T Data)
 	{
 		insert(Data, Root);
 	}
-	int count()const
+	void erase(T Data)
+	{
+		erase(Data, Root);
+	}
+	T count()const
 	{
 		return count(Root);
 	}
-	int minValue()const
+	T sum()const
+	{
+		return sum(Root);
+	}
+	double avg()const
+	{
+		return avg(Root);
+	}
+	T minValue()const
 	{
 		return minValue(Root);
 	}
-	int maxValue()const
+	T maxValue()const
 	{
 		return maxValue(Root);
+	}
+	int depth()const
+	{
+		return depth(Root);
 	}
 	void balance()
 	{
@@ -94,29 +113,11 @@ public:
 		true_print(Root, depth());
 		cout << endl;
 	}
-
-	int sum()const
-	{
-		return sum(Root);
-	}
-	double avg()const
-	{
-		return avg(Root);
-	}
-	int depth()const
-	{
-		return depth(Root);
-	}
 	void clear()
 	{
 		clear(Root);
 		Root = nullptr;
 	}
-	void erase(int Data)
-	{
-		erase(Data, Root);
-	}
-
 
 private:
 	void clear(Element* Root)
@@ -128,7 +129,7 @@ private:
 	}
 
 	//            Adding elements:
-	void insert(int Data, Element* Root)
+	void insert(T Data, Element* Root)
 	{
 		if (this->Root == nullptr)this->Root = new Element(Data);
 		if (Root == nullptr)return;
@@ -143,7 +144,7 @@ private:
 			else insert(Data, Root->pRight);
 		}
 	}
-	void erase(int Data, Element*& Root)
+	void erase(T Data, Element*& Root)
 	{
 		if (Root == nullptr)return;
 		erase(Data, Root->pLeft);
@@ -171,10 +172,83 @@ private:
 		}
 	}
 
+	//                      Methods:
+	int count(Element* Root)const
+	{
+		/*if (Root == nullptr)return 0;
+		else return count(Root->pLeft) + count(Root->pRight)+1;*/
+		//return Root ? count
+		return Root == nullptr ? 0 : count(Root->pLeft) + count(Root->pRight) + 1;
+	}
+	T sum(Element* Root)const
+	{
+		if (Root == nullptr)return 0;
+		else return Root->Data + sum(Root->pLeft) + sum(Root->pRight);
+	}
+	double avg(Element* Root)const
+	{
+		if (Root == nullptr)return 0;
+		else return (double)sum(Root) / count(Root);
+	}
+	T minValue(Element* Root)const
+	{
+		if (Root == nullptr)return 0;
+		/*/if (Root->pLeft == nullptr)return Root->Data;
+		else return minValue(Root->pLeft);*/
 
-	//     Methods:
+		return Root->pLeft == nullptr ? Root->Data : minValue(Root->pLeft);
+	}
+	T maxValue(Element* Root)const
+	{
+		if (Root == nullptr)return 0;
+		/*if (Root->pRight == nullptr)return Root->Data;
+		else return maxValue(Root->pRight);*/
+
+		return Root->pRight == nullptr ? Root->Data : maxValue(Root->pRight);
+	}
+	int depth(Element* Root)const
+	{
+		if (Root == nullptr)return 0;
+		int l_depth = depth(Root->pLeft) + 1;
+		int r_depth = depth(Root->pRight) + 1;
+		return l_depth > r_depth ? l_depth : r_depth;
+
+		/*else return
+			depth(Root->pLeft) > depth(Root->pRight) ?
+			depth(Root->pLeft) + 1:
+			depth(Root->pRight) + 1;*/
+	}
+	void balance(Element* Root)
+	{
+		if (Root == nullptr)return;
+		if (abs(count(Root->pLeft) - count(Root->pRight)) < 2)return;
+		// Функция abs() возвращает абсолютное значение числа:
+		// 2 - 5 = -3;
+		//abs (2-5) = 3;
+		if (count(Root->pLeft) < count(Root->pRight))
+		{
+
+			if (Root->pLeft)insert(Root->Data, Root->pLeft);
+			else Root->pLeft = new Element(Root->Data);
+			Root->Data = minValue(Root->pRight);
+			erase(minValue(Root->pRight), Root->pRight);
 
 
+		}
+		else if (count(Root->pLeft) > count(Root->pRight))
+		{
+
+			if (Root->pRight)insert(Root->Data, Root->pRight);
+			else Root->pRight = new Element(Root->Data);
+			Root->Data = maxValue(Root->pLeft);
+			erase(maxValue(Root->pLeft), Root->pLeft);
+
+
+		}
+		balance(Root->pLeft);
+		balance(Root->pRight);
+		balance(Root);
+	}
 	void print(Element* Root)const
 	{
 		if (Root == nullptr)return;
@@ -207,120 +281,34 @@ private:
 		cout << endl;
 		cout << endl;
 	}
-
-	int minValue(Element* Root)const
-	{
-		if (Root == nullptr)return 0;
-		/*/if (Root->pLeft == nullptr)return Root->Data;
-		else return minValue(Root->pLeft);*/
-
-		return Root->pLeft == nullptr ? Root->Data : minValue(Root->pLeft);
-	}
-	int maxValue(Element* Root)const
-	{
-		if (Root == nullptr)return 0;
-		/*if (Root->pRight == nullptr)return Root->Data;
-		else return maxValue(Root->pRight);*/
-
-		return Root->pRight == nullptr ? Root->Data : maxValue(Root->pRight);
-	}
-	int count(Element* Root)const
-	{
-		/*if (Root == nullptr)return 0;
-		else return count(Root->pLeft) + count(Root->pRight)+1;*/
-		//return Root ? count
-		return Root == nullptr ? 0 : count(Root->pLeft) + count(Root->pRight) + 1;
-	}
-
-	int sum(Element* Root)const
-	{
-		if (Root == nullptr)return 0;
-		else return Root->Data + sum(Root->pLeft) + sum(Root->pRight);
-	}
-
-	double avg(Element* Root)const
-	{
-		if (Root == nullptr)return 0;
-		else return (double)sum(Root) / count(Root);
-	}
-	int depth(Element* Root)const
-	{
-		if (Root == nullptr)return 0;
-		int l_depth = depth(Root->pLeft) + 1;
-		int r_depth = depth(Root->pRight) + 1;
-		return l_depth > r_depth ? l_depth : r_depth;
-
-		/*else return
-			depth(Root->pLeft) > depth(Root->pRight) ?
-			depth(Root->pLeft) + 1:
-			depth(Root->pRight) + 1;*/
-
-	}
-	void balance(Element* Root)
-	{
-		if (Root == nullptr)return;
-		if (abs(count(Root->pLeft) - count(Root->pRight)) < 2)return;
-		// Функция abs() возвращает абсолютное значение числа:
-		// 2 - 5 = -3;
-		//abs (2-5) = 3;
-		if (count(Root->pLeft) < count(Root->pRight))
-		{
-
-			if (Root->pLeft)insert(Root->Data, Root->pLeft);
-			else Root->pLeft = new Element(Root->Data);
-			Root->Data = minValue(Root->pRight);
-			erase(minValue(Root->pRight), Root->pRight);
-
-
-		}
-		else if (count(Root->pLeft) > count(Root->pRight))
-		{
-
-			if (Root->pRight)insert(Root->Data, Root->pRight);
-			else Root->pRight = new Element(Root->Data);
-			Root->Data = maxValue(Root->pLeft);
-			erase(maxValue(Root->pLeft), Root->pLeft);
-
-
-		}
-		balance(Root->pLeft);
-		balance(Root->pRight);
-		balance(Root);
-
-
-
-
-	}
-
-
 };
-
-class UniqueTree :public Tree
+template<typename T>
+class UniqueTree :public Tree<T>
 {
 
-	void insert(int Data, Element* Root)
+	void insert(T Data, typename Tree<T>::Element* Root)
 	{
-		if (this->Root == nullptr)this->Root = new Element(Data);
+		if (this->Root == nullptr)this->Root = new typename Tree<T>::Element::Element(Data);
 		if (Root == nullptr)return;
 		if (Data < Root->Data)
 		{
-			if (Root->pLeft == nullptr)Root->pLeft = new Element(Data);
+			if (Root->pLeft == nullptr)Root->pLeft = new typename Tree<T>::Element::Element(Data);
 			else insert(Data, Root->pLeft);
 		}
 		else if (Data > Root->Data)
 		{
-			if (Root->pRight == nullptr)Root->pRight = new Element(Data);
+			if (Root->pRight == nullptr)Root->pRight = new typename Tree<T>::Element::Element(Data);
 			else insert(Data, Root->pRight);
 		}
 	}
 public:
-	void insert(int Data)
+	void insert(T Data)
 	{
-		insert(Data, Root);
+		insert(Data, Tree<T>::Root);
 	}
 };
 template<typename T>
-void measure(const char description[], const Tree& tree, T(Tree::* member_function)()const)
+void measure(const char description[], const Tree<T>& tree, T(Tree<T>::* member_function)()const)
 {
 	cout << description;
 	clock_t t_start = clock();
@@ -331,7 +319,7 @@ void measure(const char description[], const Tree& tree, T(Tree::* member_functi
 
 //#define BASE_CHEK
 //#define DEPTH_CHEK
-#define BALANCE_CHEK
+//#define BALANCE_CHEK
 //#define PREFORMANCE_CHEK
 
 void main()
@@ -340,7 +328,7 @@ void main()
 #ifdef BASE_CHEK
 	int n;
 	cout << "Введите размер дерева: "; cin >> n;
-	Tree tree;// = {50, 25, 75, 16, 32, 64, 80, 78};
+	Tree<int> tree;// = {50, 25, 75, 16, 32, 64, 80, 78};
 	cout << "Минимальное значение в дереве: " << tree.minValue() << endl;
 	cout << "Максимальное значение в дереве: " << tree.minValue() << endl;
 	for (int i = 0; i < n; i++)
@@ -363,7 +351,7 @@ void main()
 	tree.print();
 
 
-	UniqueTree u_tree;
+	UniqueTree<int> u_tree;
 	for (int i = 0; i < n; i++)
 	{
 		u_tree.insert(rand() % 100);
@@ -381,7 +369,7 @@ void main()
 #endif // BASE_CHEK
 
 #ifdef DEPTH_CHEK
-	Tree tree = { 50, 25, 75, 16, 32, 64, 80, 68 };
+	Tree<int> tree = { 50, 25, 75, 16, 32, 64, 80, 68 };
 	//tree.~Tree();
 	tree.print();
 	cout << "Глубина дерева: " << tree.depth() << endl;
@@ -399,7 +387,7 @@ void main()
 	clock_t t_start, t_end;
 	int n;
 	cout << "Введите размер дерева: "; cin >> n;
-	Tree tree;
+	Tree<int> tree;
 	t_start = clock(); //Функция 'clock()' 
 	for (int i = 0; i < n; i++)
 	{
@@ -409,12 +397,12 @@ void main()
 	cout << "Дерево заполнено за: " << double(t_end - t_start) / CLOCKS_PER_SEC << " сек." << endl;
 	//tree.print();
 
-	measure("Минимальное значение в дереве:\t ", tree, &Tree::minValue);
-	measure("Максимальное значение в дереве:\t ", tree, &Tree::maxValue);
-	measure("Сумма элементов деревa:\t\t ", tree, &Tree::sum);
-	measure("Количество элементов в дереве:\t ", tree, &Tree::count);
-	measure("Cреднее-арифметическое элементов дерева:\t ", tree, &Tree::avg);
-	measure("Глубина дерева:\t\t\t ", tree, &Tree::depth);
+	measure<int>("Минимальное значение в дереве:\t ", tree, &Tree<int>::minValue);
+	measure<int>("Максимальное значение в дереве:\t ", tree, &Tree<int>::maxValue);
+	measure<int>("Сумма элементов деревa:\t\t ", tree, &Tree<int>::sum);
+	measure<int>("Количество элементов в дереве:\t ", tree, &Tree<int>::count);
+	measure<double>("Cреднее-арифметическое элементов дерева:\t ", tree, &Tree<int>::avg);
+	measure<int>("Глубина дерева:\t\t\t ", tree, &Tree<int>::depth);
 
 
 
@@ -452,7 +440,7 @@ void main()
 
 #endif // PREFORMANCE_CHEK
 #ifdef BALANCE_CHEK
-	Tree tree = { 3, 5, 8, 13, 21, 34, 55 };
+	Tree<int> tree = { 3, 5, 8, 13, 21, 34, 55 };
 
 	tree.true_print();
 	tree.balance();
@@ -462,6 +450,7 @@ void main()
 
 
 
-
+	Tree<double> tree = { 5.5, 2.5, 7.5, 1.6, 3.2, 6.4, 8.1 };
+	tree.true_print();
 
 }
